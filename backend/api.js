@@ -79,11 +79,14 @@ export async function updateProduct(req, res) {
   const updates = req.body;
   const { id } = req.params;
 
-  // check if the id is valid or not, sent 404
+  console.log(updates, id);
+
+  // check if the id is valid or not, sent 400
   if (!mongoose.isValidObjectId(id)) {
-    res.status(404).json({
+    console.log("not valid id, ");
+    res.status(400).json({
       res: false,
-      message: "product Id is not valid / not found",
+      message: "invalid id",
     });
   }
 
@@ -93,11 +96,20 @@ export async function updateProduct(req, res) {
       new: true,
       runValidators: true,
     });
-    res.status(201).send({
-      res: true,
-      message: "Product updated successfully",
-      data: updatedProduct,
-    });
+    if (updatedProduct === null) {
+      // id not found, return 404
+      console.log("id not found");
+      res.status(404).json({
+        res: false,
+        message: "product Id is not valid / not found",
+      });
+    } else {
+      res.status(201).send({
+        res: true,
+        message: "Product updated successfully",
+        data: updatedProduct,
+      });
+    }
   } catch (err) {
     // check if its a validation error, return 400 Bad request
     if (err instanceof mongoose.Error.ValidationError) {
