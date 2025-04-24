@@ -32,6 +32,7 @@ const useProductStore = create<ProductState>()((set) => ({
   products: [],
   setProducts: (products) => set({ products }),
   fetchProducts: async () => {
+    console.log("fetch data now");
     const res = await fetch("api/product");
     const data = await res.json();
     set({ products: data.data });

@@ -23,10 +23,10 @@ app.use(express.json()); // middleware allow us to accept json data from body
 app.use("/api/product", productRoute);
 
 app.get("/", (req, res) => {
-  res.send("Hello, World!");
+    res.send("Hello, World!");
 });
 
 app.listen(PORT, () => {
-  connectDB();
-  console.log("Server started at http://localhost:" + PORT);
+    connectDB();
+    console.log("Server started at http://localhost:" + PORT);
 });

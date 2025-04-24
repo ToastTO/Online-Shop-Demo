@@ -12,6 +12,7 @@ update log:
                 updateProduct:      Update Stripe Product Name and Des, deactivating current prices and create new Prices object if Price updated. 
                 deleteProduct:      deactivate Stripe product and prices.
                 deleteAllProduct:   Deactivate all Stripe product and prices.
+2025-04-24: fixed empty description bug @create function.
 */
 
 import mongoose from "mongoose";
@@ -27,6 +28,7 @@ const stripe = new Stripe(process.env.STRIPE_API_Secret_KEY);
 // console.log(process.env.STRIPE_API_Secret_KEY);
 
 export async function getProducts(req, res) {
+    console.log("getProducts");
     try {
         // get all products from mongoDB
         const products = await Product.find();
@@ -53,12 +55,13 @@ export async function createProduct(req, res) {
     const product = req.body;
 
     try {
+        let createReq = { name: product.name };
+        if (product.description !== "")
+            createProduct.description = product.description;
+
         // create a new product in Stripe
         let stripeProduct, stripePrice;
-        stripeProduct = await stripe.products.create({
-            name: product.name,
-            description: product.description,
-        });
+        stripeProduct = await stripe.products.create(createReq);
         console.log(stripeProduct);
 
         // create a new price for that product in Stripe

@@ -25,7 +25,7 @@ const Shop = (props: ShopProps) => {
     fetchProducts();
   }, [fetchProducts]);
 
-  console.log(products, products.length);
+  // console.log(products, products.length);
 
   function pageTitle() {
     return (

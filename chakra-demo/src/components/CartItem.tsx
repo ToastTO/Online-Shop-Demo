@@ -29,9 +29,7 @@ const CartItem = (props: CartItemPropsInterface) => {
       alignItems="center"
       borderRadius="3xl"
       transition="all 0.3s"
-      _hover={{
-        backgroundColor: "gray.800",
-      }}
+      _hover={{ shadow: "md" }}
     >
       <Text textStyle={TEXT_SIZE}>{name}</Text>
       <HStack alignItems="center">

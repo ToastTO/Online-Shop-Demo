@@ -24,7 +24,7 @@ function ShopItemCard(props: ShopItemCardProps) {
 
   const { deleteProduct } = useProductStore();
 
-  const { addToCart } = useShoppingCartStore();
+  const { addToCart, cart } = useShoppingCartStore();
 
   //handle function
   async function deleteHandle(id: string) {
@@ -50,12 +50,27 @@ function ShopItemCard(props: ShopItemCardProps) {
   }
 
   function handleAddToCart() {
-    addToCart(data);
-    toaster.create({
-      title: data.name + " has added to Cart!",
-      type: "info",
-      duration: 2000,
+    // check product in cart already ?
+    let inCart = false;
+    cart.map((product) => {
+      console.log(product._id, _id);
+      if (product._id === _id) inCart = true;
     });
+
+    if (inCart) {
+      toaster.create({
+        title: data.name + " already in Cart!",
+        type: "error",
+        duration: 2000,
+      });
+    } else {
+      addToCart(data);
+      toaster.create({
+        title: data.name + " has added to Cart!",
+        type: "info",
+        duration: 2000,
+      });
+    }
   }
 
   function footerShopButtons() {

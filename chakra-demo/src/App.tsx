@@ -15,7 +15,7 @@ function App() {
         <Route path="About" element={<About />} />
         <Route path="Shop" element={<Shop editMode={false} />} />
         <Route path="Shop/cart" element={<Cart />} />
-        <Route path="Shop/editMode" element={<Shop editMode={true} />} />
+        <Route path="editShop" element={<Shop editMode={true} />} />
       </Routes>
       <Toaster />
     </>
