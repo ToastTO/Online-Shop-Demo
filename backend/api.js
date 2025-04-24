@@ -7,6 +7,11 @@ description: api callback functions for handling HTTP requests.
 
 update log:
 2025-04-21: first created.
+2025-04-23: update api to create, deleted, updated Stripe Product and Prices object
+                createProduct:      Create Stripe product, Create Stripe prices for that product
+                updateProduct:      Update Stripe Product Name and Des, deactivating current prices and create new Prices object if Price updated. 
+                deleteProduct:      deactivate Stripe product and prices.
+                deleteAllProduct:   Deactivate all Stripe product and prices.
 */
 
 import mongoose from "mongoose";
@@ -123,7 +128,7 @@ export async function updateProduct(req, res) {
     }
 
     try {
-        // try to save the product on mongoDB
+        // get original Product object
         const originalProduct = await Product.findById(id);
         if (originalProduct === null) {
             // id not found, return 404

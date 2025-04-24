@@ -1,9 +1,10 @@
 import { create } from "zustand";
 
 export interface ProductInfo {
+  _id: string;
   name: string;
   price: number;
-  category: string;
+  category?: string;
   description?: string;
   imageUrl?: string;
 }

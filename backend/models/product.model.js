@@ -7,13 +7,14 @@ description: Export Mongoose model for product.
 
 update log:
 2025-04-21: first created.
+2025-04-23: added stripeProductId and stripePricesId, category is not required
 */
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const NAME_ERROR_MSG = "Product name is required";
 const PRICE_ERROR_MSG = "Product price is required, must greater than 0";
-const CATEGORY_ERROR_MSG = "Product category is required";
+// const CATEGORY_ERROR_MSG = "Product category is required";
 
 const productSchema = new Schema({
         // required fields

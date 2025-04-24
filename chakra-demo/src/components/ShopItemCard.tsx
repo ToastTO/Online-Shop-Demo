@@ -2,6 +2,7 @@ import { Button, Card, Image, Text, Badge, HStack } from "@chakra-ui/react";
 import { toaster } from "@/components/ui/toaster";
 import useProductStore from "../../store/product.ts";
 import ProductUpdateDialog from "./ProductUpdateDialog.tsx";
+import useShoppingCartStore from "../../store/cart.ts";
 
 export interface dataObject {
   name: string;
@@ -22,6 +23,8 @@ function ShopItemCard(props: ShopItemCardProps) {
   let { name, price, _id, category, description, imageUrl } = data;
 
   const { deleteProduct } = useProductStore();
+
+  const { addToCart } = useShoppingCartStore();
 
   //handle function
   async function deleteHandle(id: string) {
@@ -46,11 +49,22 @@ function ShopItemCard(props: ShopItemCardProps) {
     }
   }
 
+  function handleAddToCart() {
+    addToCart(data);
+    toaster.create({
+      title: data.name + " has added to Cart!",
+      type: "info",
+      duration: 2000,
+    });
+  }
+
   function footerShopButtons() {
     return (
       <Card.Footer gap="2">
         <Button variant="solid">Buy now</Button>
-        <Button variant="ghost">Add to cart</Button>
+        <Button variant="ghost" onClick={handleAddToCart}>
+          Add to cart
+        </Button>
       </Card.Footer>
     );
   }
