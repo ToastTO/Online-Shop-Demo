@@ -18,16 +18,18 @@ update log:
 
 import express from "express";
 import {
-  getProducts,
-  createProduct,
-  deleteProduct,
-  deleteAllProducts,
-  updateProduct,
+    getProducts,
+    createProduct,
+    deleteProduct,
+    deleteAllProducts,
+    updateProduct,
+    createCheckoutSession,
 } from "../api.js";
 
 const router = express.Router();
 
 router.get("/", getProducts);
+router.post("/create-checkout-session", createCheckoutSession);
 router.post("/", createProduct);
 router.put("/:id", updateProduct);
 router.delete("/all", deleteAllProducts);

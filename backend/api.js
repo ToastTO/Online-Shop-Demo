@@ -291,3 +291,19 @@ export async function deleteAllProducts(req, res) {
         });
     }
 }
+
+export async function createCheckoutSession(req, res) {
+    console.log("Create Checkout Session");
+    // need to get req body -> product info to create a session
+    const session = await stripe.checkout.sessions.create({
+        line_items: [{
+            price: "price_1RHKSuQVZoIHpRlNzQv6asqy",
+            quantity: 1,
+        }, ],
+        mode: "payment",
+        ui_mode: "embedded",
+        return_url: "https://www.youtube.com/watch?v=_AyFP5s69N4",
+    });
+
+    res.send({ clientSecret: session.client_secret });
+}

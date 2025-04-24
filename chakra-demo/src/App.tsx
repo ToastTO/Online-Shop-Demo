@@ -5,6 +5,7 @@ import About from "./page/About";
 import Shop from "./page/Shop";
 import { Toaster } from "./components/ui/toaster";
 import Cart from "./page/Cart";
+import Checkout from "./page/Checkout";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="Shop" element={<Shop editMode={false} />} />
         <Route path="Shop/cart" element={<Cart />} />
         <Route path="editShop" element={<Shop editMode={true} />} />
+        <Route path="checkout" element={<Checkout />} />
       </Routes>
       <Toaster />
     </>
