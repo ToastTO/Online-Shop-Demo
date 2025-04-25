@@ -1,9 +1,11 @@
-import React, { useCallback, useState, useEffect } from "react";
+import { useCallback } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import {
   EmbeddedCheckoutProvider,
   EmbeddedCheckout,
 } from "@stripe/react-stripe-js";
+import { Box } from "@chakra-ui/react";
+import useShoppingCartStore from "../../store/cart";
 
 // load strip
 const stripePromise = loadStripe(
@@ -11,10 +13,16 @@ const stripePromise = loadStripe(
 );
 
 const Checkout = () => {
+  const { cart } = useShoppingCartStore();
+
   const fetchClientSecret = useCallback(() => {
     // Create a Checkout Session
     return fetch("api/product/create-checkout-session", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(cart),
     })
       .then((res) => res.json())
       .then((data) => data.clientSecret);
@@ -23,11 +31,11 @@ const Checkout = () => {
   const options = { fetchClientSecret };
 
   return (
-    <div id="checkout">
+    <Box p={"3"}>
       <EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
         <EmbeddedCheckout />
       </EmbeddedCheckoutProvider>
-    </div>
+    </Box>
   );
 };
 

@@ -1,5 +1,6 @@
 import { Button, Card, Image, Text, Badge, HStack } from "@chakra-ui/react";
 import { toaster } from "@/components/ui/toaster";
+import { useNavigate } from "react-router";
 import useProductStore from "../../store/product.ts";
 import ProductUpdateDialog from "./ProductUpdateDialog.tsx";
 import useShoppingCartStore from "../../store/cart.ts";
@@ -24,7 +25,9 @@ function ShopItemCard(props: ShopItemCardProps) {
 
   const { deleteProduct } = useProductStore();
 
-  const { addToCart, cart } = useShoppingCartStore();
+  const { emptyCart, addToCart, cart } = useShoppingCartStore();
+
+  const navigate = useNavigate();
 
   //handle function
   async function deleteHandle(id: string) {
@@ -73,10 +76,18 @@ function ShopItemCard(props: ShopItemCardProps) {
     }
   }
 
+  function handleBuyNow() {
+    emptyCart();
+    addToCart(data);
+    navigate("../checkout");
+  }
+
   function footerShopButtons() {
     return (
       <Card.Footer gap="2">
-        <Button variant="solid">Buy now</Button>
+        <Button variant="solid" onClick={handleBuyNow}>
+          Buy now
+        </Button>
         <Button variant="ghost" onClick={handleAddToCart}>
           Add to cart
         </Button>

@@ -14,6 +14,7 @@ METHOD      URL                     DESCRIPTION
 
 update log:
 2025-04-21: first created.
+2025-04-25: added create checkout secssion and sessionStatus route
 */
 
 import express from "express";
@@ -24,12 +25,14 @@ import {
     deleteAllProducts,
     updateProduct,
     createCheckoutSession,
+    sessionStatus,
 } from "../api.js";
 
 const router = express.Router();
 
 router.get("/", getProducts);
 router.post("/create-checkout-session", createCheckoutSession);
+router.get("/session-status", sessionStatus);
 router.post("/", createProduct);
 router.put("/:id", updateProduct);
 router.delete("/all", deleteAllProducts);

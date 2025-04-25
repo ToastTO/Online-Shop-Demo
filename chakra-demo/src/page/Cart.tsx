@@ -1,4 +1,13 @@
-import { Box, Text, Button, Container, VStack, HStack } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Button,
+  Container,
+  VStack,
+  HStack,
+  EmptyState,
+} from "@chakra-ui/react";
+import { LuShoppingCart } from "react-icons/lu";
 import useShoppingCartStore from "../../store/cart.ts";
 import CartItem from "@/components/CartItem.tsx";
 import { toaster } from "@/components/ui/toaster.tsx";
@@ -21,6 +30,10 @@ const Cart = () => {
       type: "info",
       duration: 2000,
     });
+  }
+
+  function handleCheckout() {
+    navigate("../checkout");
   }
 
   function pageTitle() {
@@ -47,6 +60,7 @@ const Cart = () => {
             variant="solid"
             colorPalette="blue"
             disabled={cart.length === 0 ? true : false}
+            onClick={handleCheckout}
           >
             Check out!
           </Button>
@@ -58,9 +72,19 @@ const Cart = () => {
     <Container maxW="container.xl" py="12">
       {pageTitle()}
       {cart.length === 0 ? (
-        <Text color="gray.500" textAlign={"center"} fontSize="lg">
-          O... you have nothing in Cart!
-        </Text>
+        <EmptyState.Root>
+          <EmptyState.Content>
+            <EmptyState.Indicator>
+              <LuShoppingCart />
+            </EmptyState.Indicator>
+            <VStack textAlign="center">
+              <EmptyState.Title>Your cart is empty</EmptyState.Title>
+              <EmptyState.Description>
+                Explore our products and add items to your cart
+              </EmptyState.Description>
+            </VStack>
+          </EmptyState.Content>
+        </EmptyState.Root>
       ) : (
         <VStack>
           {cart.map((item) => (

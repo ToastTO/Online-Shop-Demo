@@ -13,6 +13,8 @@ update log:
                 deleteProduct:      deactivate Stripe product and prices.
                 deleteAllProduct:   Deactivate all Stripe product and prices.
 2025-04-24: fixed empty description bug @create function.
+2025-04-24: added Stripe Checkout Session demo.
+2025-04-25: added sessionStatus api
 */
 
 import mongoose from "mongoose";
@@ -295,15 +297,35 @@ export async function deleteAllProducts(req, res) {
 export async function createCheckoutSession(req, res) {
     console.log("Create Checkout Session");
     // need to get req body -> product info to create a session
-    const session = await stripe.checkout.sessions.create({
-        line_items: [{
-            price: "price_1RHKSuQVZoIHpRlNzQv6asqy",
+    const products = req.body;
+    let i = 0;
+    let line_items = [];
+    for (const product of products) {
+        line_items[i++] = {
+            price: product.stripePriceId,
             quantity: 1,
-        }, ],
+        };
+    }
+
+    console.log(line_items);
+
+    const session = await stripe.checkout.sessions.create({
+        line_items: line_items,
         mode: "payment",
         ui_mode: "embedded",
-        return_url: "https://www.youtube.com/watch?v=_AyFP5s69N4",
+        return_url: "http://localhost:5173/return?session_id={CHECKOUT_SESSION_ID}",
     });
 
     res.send({ clientSecret: session.client_secret });
+}
+
+export async function sessionStatus(req, res) {
+    console.log("sessionStatus");
+
+    const session = await stripe.checkout.sessions.retrieve(req.query.session_id);
+
+    res.send({
+        status: session.status,
+        customer_email: session.customer_details.email,
+    });
 }
