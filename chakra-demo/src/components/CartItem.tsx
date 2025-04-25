@@ -1,4 +1,4 @@
-import { HStack, Text, CloseButton, Box, Center } from "@chakra-ui/react";
+import { HStack, Text, CloseButton } from "@chakra-ui/react";
 import { ProductInfo } from "../../store/product";
 import useShoppingCartStore from "../../store/cart";
 
