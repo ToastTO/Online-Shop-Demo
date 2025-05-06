@@ -2,3 +2,4 @@
 .env
 .
 # /chakra-demo
+.DS_Store
