@@ -21,6 +21,7 @@ import useProductStore from "../../store/product.ts";
 import { toaster } from "./ui/toaster.tsx";
 import { useState } from "react";
 import { dataObject } from "./ShopItemCard.tsx";
+import SpinnerFloat from "./SpinnerFloat.tsx";
 
 interface ProductUpdateDialogProps {
   data?: dataObject;
@@ -39,6 +40,7 @@ function ProductUpdateDialog(props: ProductUpdateDialogProps) {
   //   }
 
   const [dialogOpen, setdialogOpen] = useState(false);
+  const [loading, setLaoding] = useState(false);
 
   const {
     register,
@@ -61,6 +63,8 @@ function ProductUpdateDialog(props: ProductUpdateDialogProps) {
   }
 
   async function saveButtonHandle(inputData: ProductInfo) {
+    // set laoding spinner to button
+    setLaoding(true);
     console.log("saveButtonHandle, FormValues: ", inputData);
 
     const { res, message, data } = (await (b_createProduct
@@ -80,6 +84,7 @@ function ProductUpdateDialog(props: ProductUpdateDialogProps) {
           b_createProduct ? "created" : "updated"
         }.`,
       });
+      setLaoding(false);
       setdialogOpen(false);
       reset();
     } else {
@@ -188,7 +193,8 @@ function ProductUpdateDialog(props: ProductUpdateDialogProps) {
                     Cancel
                   </Button>
                 </Dialog.ActionTrigger>
-                <Button type="submit">
+                <Button type="submit" disabled={loading}>
+                  {loading ? <SpinnerFloat /> : null}
                   {b_createProduct ? "Create" : "Save"}
                 </Button>
               </Dialog.Footer>

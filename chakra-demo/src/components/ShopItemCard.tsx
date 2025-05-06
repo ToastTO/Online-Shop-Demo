@@ -4,6 +4,8 @@ import { useNavigate } from "react-router";
 import useProductStore from "../../store/product.ts";
 import ProductUpdateDialog from "./ProductUpdateDialog.tsx";
 import useShoppingCartStore from "../../store/cart.ts";
+import { useState } from "react";
+import SpinnerFloat from "./SpinnerFloat.tsx";
 
 export interface dataObject {
   name: string;
@@ -24,13 +26,14 @@ function ShopItemCard(props: ShopItemCardProps) {
   let { name, price, _id, category, description, imageUrl } = data;
 
   const { deleteProduct } = useProductStore();
-
   const { emptyCart, addToCart, cart } = useShoppingCartStore();
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
   //handle function
   async function deleteHandle(id: string) {
+    setLoading(true);
     console.log("deleteHandle, id: ", id);
     const { res, message } = (await deleteProduct(id)) || {
       res: false,
@@ -50,6 +53,7 @@ function ShopItemCard(props: ShopItemCardProps) {
         duration: 5000,
       });
     }
+    setLoading(false);
   }
 
   function handleAddToCart() {
@@ -103,7 +107,9 @@ function ShopItemCard(props: ShopItemCardProps) {
           onClick={() => deleteHandle(_id)}
           colorPalette={"red"}
           variant="solid"
+          disabled={loading}
         >
+          {loading ? <SpinnerFloat /> : null}
           Delete
         </Button>
       </Card.Footer>
