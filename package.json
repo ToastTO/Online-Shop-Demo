@@ -1,24 +1,26 @@
 {
-    "name": "shop-demo",
-    "version": "1.0.0",
-    "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "dev": "nodemon backend/server.js"
-    },
-    "type": "module",
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "description": "",
-    "dependencies": {
-        "@stripe/stripe-js": "^7.2.0",
-        "dotenv": "^16.5.0",
-        "express": "^5.1.0",
-        "mongoose": "^8.13.2",
-        "stripe": "^18.0.0"
-    },
-    "devDependencies": {
-        "nodemon": "^3.1.9"
-    }
+  "name": "shop-demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon backend/server.js",
+    "build": "npm install && npm install --prefix chakra-demo && npm run build --prefix chakra-demo",
+    "start": "node backend/server.js"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@stripe/stripe-js": "^7.2.0",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "mongoose": "^8.13.2",
+    "stripe": "^18.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
 }
